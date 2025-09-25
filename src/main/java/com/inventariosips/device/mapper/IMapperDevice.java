@@ -5,7 +5,6 @@ import com.inventariosips.brand.model.BrandEntity;
 import com.inventariosips.device.dto.DeviceDTO;
 import com.inventariosips.device.model.DeviceEntity;
 import com.inventariosips.statusDevice.model.StatusDeviceEntity;
-import com.inventariosips.user.model.UserEntity;
 import com.inventariosips.warranty.model.WarrantyEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,13 +17,11 @@ public interface IMapperDevice {
     @Mapping(source = "idBrand", target = "brand")
     @Mapping(source = "idWarranty", target = "warranty")
     @Mapping(source = "idStatusDevice", target = "statusDevice")
-    @Mapping(source = "idAssignedUser", target = "assignedUser")
     DeviceEntity DeviceDTOToDeviceEntity(DeviceDTO deviceDTO);
 
     @Mapping(source = "brand.idBrand", target = "idBrand")
     @Mapping(source = "warranty.idWarranty", target = "idWarranty")
     @Mapping(source = "statusDevice.idStatusDevice", target = "idStatusDevice")
-    @Mapping(source = "assignedUser.idUser", target = "idAssignedUser")
     DeviceDTO DeviceEntityToDeviceDTO(DeviceEntity deviceEntity);
 
     List<DeviceDTO> lstDeviceEntityToLstDeviceDTO(List<DeviceEntity> devicesListEntity);
@@ -48,12 +45,5 @@ public interface IMapperDevice {
         StatusDeviceEntity status = new StatusDeviceEntity();
         status.setIdStatusDevice(id);
         return status;
-    }
-
-    default UserEntity mapUser(Integer idUser) {
-        if (idUser == null) return null;
-        UserEntity user = new UserEntity();
-        user.setIdUser(idUser);
-        return user;
     }
 }

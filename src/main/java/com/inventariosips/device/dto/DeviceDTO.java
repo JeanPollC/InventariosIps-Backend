@@ -32,8 +32,6 @@ public class DeviceDTO {
     @Size(min = 5)
     private String deviceType;
 
-    private Integer idAssignedUser;
-
     @NotNull
     private Integer idWarranty;
 

@@ -35,10 +35,6 @@ public class DeviceEntity {
     private String deviceType;
 
     @ManyToOne
-    @JoinColumn(name = "id_assigned_user", foreignKey = @ForeignKey(name = "FK_DEVICE_USER"))
-    private UserEntity assignedUser;
-
-    @ManyToOne
     @JoinColumn(name = "id_warranty", nullable = false, foreignKey = @ForeignKey(name = "FK_DEVICE_WARRANTY"))
     private WarrantyEntity warranty;
 
