@@ -38,6 +38,7 @@ public class BrandServiceImpl implements IBrandService {
 
     @Override
     public void deleteBrand(Integer id) {
+        brandRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
         brandRepo.deleteById(id);
     }
 }

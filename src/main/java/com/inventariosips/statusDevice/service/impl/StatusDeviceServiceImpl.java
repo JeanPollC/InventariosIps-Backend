@@ -38,6 +38,7 @@ public class StatusDeviceServiceImpl implements IStatusDeviceService {
 
     @Override
     public void deleteStatusDevice(Integer id) {
+        statusDeviceRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
         statusDeviceRepo.deleteById(id);
     }
 }

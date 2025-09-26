@@ -38,6 +38,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void deleteUser(Integer id) {
+        userRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
         userRepo.deleteById(id);
     }
 }

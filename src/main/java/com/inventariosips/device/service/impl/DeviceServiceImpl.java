@@ -13,31 +13,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DeviceServiceImpl implements IDeviceService {
 
-    private final IDeviceRepo DeviceRepo;
+    private final IDeviceRepo deviceRepo;
 
     @Override
     public DeviceEntity saveDevice(DeviceEntity DeviceEntity) {
-        return DeviceRepo.save(DeviceEntity);
+        return deviceRepo.save(DeviceEntity);
     }
 
     @Override
     public DeviceEntity updateDevice(DeviceEntity DeviceEntity, Integer id) {
-        DeviceRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
-        return DeviceRepo.save(DeviceEntity);
+        deviceRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
+        return deviceRepo.save(DeviceEntity);
     }
 
     @Override
     public List<DeviceEntity> findAllDevice() {
-        return DeviceRepo.findAll();
+        return deviceRepo.findAll();
     }
 
     @Override
     public DeviceEntity findByIdDevice(Integer id) {
-        return DeviceRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
+        return deviceRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
     }
 
     @Override
     public void deleteDevice(Integer id) {
-        DeviceRepo.deleteById(id);
+        deviceRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
+        deviceRepo.deleteById(id);
     }
 }

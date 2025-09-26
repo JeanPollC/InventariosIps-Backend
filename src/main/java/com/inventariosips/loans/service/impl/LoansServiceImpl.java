@@ -38,6 +38,7 @@ public class LoansServiceImpl implements ILoansService {
 
     @Override
     public void deleteLoans(Integer id) {
+        loansRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
         loansRepo.deleteById(id);
     }
 }

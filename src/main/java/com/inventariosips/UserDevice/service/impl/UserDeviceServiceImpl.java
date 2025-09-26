@@ -38,6 +38,7 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
 
     @Override
     public void deleteUserDevice(Integer id) {
+        userDeviceRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
         userDeviceRepo.deleteById(id);
     }
 }

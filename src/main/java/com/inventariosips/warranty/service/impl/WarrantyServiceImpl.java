@@ -38,6 +38,7 @@ public class WarrantyServiceImpl implements IWarrantyService {
 
     @Override
     public void deleteWarranty(Integer id) {
+        warrantyRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
         warrantyRepo.deleteById(id);
     }
 }

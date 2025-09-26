@@ -38,6 +38,7 @@ public class UserTypeServiceImpl implements IUserTypeService {
 
     @Override
     public void deleteUserType(Integer id) {
+        userTypeRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
         userTypeRepo.deleteById(id);
     }
 }
