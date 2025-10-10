@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("Devices")
+@RequestMapping("devices")
 @RequiredArgsConstructor
 public class DeviceController {
 

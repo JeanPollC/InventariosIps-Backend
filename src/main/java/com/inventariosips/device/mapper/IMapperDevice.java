@@ -1,6 +1,7 @@
 package com.inventariosips.device.mapper;
 
 
+import com.inventariosips.area.model.AreaEntity;
 import com.inventariosips.brand.model.BrandEntity;
 import com.inventariosips.device.dto.DeviceDTO;
 import com.inventariosips.device.model.DeviceEntity;
@@ -14,11 +15,13 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface IMapperDevice {
 
+    @Mapping(source = "idArea", target = "area")
     @Mapping(source = "idBrand", target = "brand")
     @Mapping(source = "idWarranty", target = "warranty")
     @Mapping(source = "idStatusDevice", target = "statusDevice")
     DeviceEntity DeviceDTOToDeviceEntity(DeviceDTO deviceDTO);
 
+    @Mapping(source = "area.idArea", target = "idArea")
     @Mapping(source = "brand.idBrand", target = "idBrand")
     @Mapping(source = "warranty.idWarranty", target = "idWarranty")
     @Mapping(source = "statusDevice.idStatusDevice", target = "idStatusDevice")
@@ -45,5 +48,12 @@ public interface IMapperDevice {
         StatusDeviceEntity status = new StatusDeviceEntity();
         status.setIdStatusDevice(id);
         return status;
+    }
+
+    default AreaEntity mapArea(Integer id) {
+        if (id == null) return null;
+        AreaEntity area = new AreaEntity();
+        area.setIdArea(id);
+        return area;
     }
 }

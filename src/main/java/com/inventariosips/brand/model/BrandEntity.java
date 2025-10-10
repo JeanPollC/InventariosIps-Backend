@@ -15,5 +15,5 @@ public class BrandEntity {
     private Integer idBrand;
 
     @Column(nullable = false, length = 50)
-    private String descripcion;
+    private String description;
 }

@@ -18,28 +18,41 @@ public class DeviceDTO {
     private Integer idDevice;
 
     @NotNull
-    @Size(min = 8)
-    private String password;
+    private String name;
+
+    @NotNull
+    private Integer idArea;
 
     @NotNull
     private Integer idBrand;
 
     @NotNull
-    @Size(min = 10)
-    private String description;
-
-    @NotNull
-    @Size(min = 5)
     private String deviceType;
 
-    @NotNull
-    private Integer idWarranty;
+    private String storage;
 
-    @Column(nullable = false)
-    private LocalDate purchaseDate;
+    private String graphics_card;
+
+    private String ram;
+
+    private String processor;
+
+    @NotNull
+    private String product_code;
+
+    @NotNull
+    private String serial_no;
+
+    private String windows_edition;
 
     @NotNull
     private Integer idStatusDevice;
 
+    @NotNull
+    private Integer idWarranty;
+
+    private String observation;
+
     private byte[] lifecycleFile;
+
 }
