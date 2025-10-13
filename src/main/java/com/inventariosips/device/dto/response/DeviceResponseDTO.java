@@ -1,19 +1,18 @@
-package com.inventariosips.device.dto;
+package com.inventariosips.device.dto.response;
 
-import com.inventariosips.statusDevice.model.StatusDeviceEntity;
-import jakarta.persistence.Column;
+import com.inventariosips.area.dto.AreaDTO;
+import com.inventariosips.brand.dto.BrandDTO;
+import com.inventariosips.statusDevice.dto.StatusDeviceDTO;
+import com.inventariosips.warranty.dto.WarrantyDTO;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeviceDTO {
+public class DeviceResponseDTO {
 
     private Integer idDevice;
 
@@ -21,10 +20,10 @@ public class DeviceDTO {
     private String name;
 
     @NotNull
-    private Integer idArea;
+    private AreaDTO area;
 
     @NotNull
-    private Integer idBrand;
+    private BrandDTO brand;
 
     @NotNull
     private String deviceType;
@@ -46,10 +45,10 @@ public class DeviceDTO {
     private String windows_edition;
 
     @NotNull
-    private Integer idStatusDevice;
+    private StatusDeviceDTO statusDevice;
 
     @NotNull
-    private Integer idWarranty;
+    private WarrantyDTO warranty;
 
     private String observation;
 

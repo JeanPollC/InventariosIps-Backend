@@ -1,6 +1,7 @@
 package com.inventariosips.device.controller;
 
-import com.inventariosips.device.dto.DeviceDTO;
+import com.inventariosips.device.dto.request.DeviceRequestDTO;
+import com.inventariosips.device.dto.response.DeviceResponseDTO;
 import com.inventariosips.device.mapper.IMapperDevice;
 import com.inventariosips.device.model.DeviceEntity;
 import com.inventariosips.device.service.IDeviceService;
@@ -22,30 +23,30 @@ public class DeviceController {
     private final IMapperDevice mapperDevice;
 
     @GetMapping
-    public ResponseEntity<List<DeviceDTO>> findAllDevicesTypes() throws Exception {
+    public ResponseEntity<List<DeviceResponseDTO>> findAllDevices() throws Exception {
         List<DeviceEntity> lst = DeviceService.findAllDevice().stream().toList();
-        return ResponseEntity.ok(mapperDevice.lstDeviceEntityToLstDeviceDTO(lst));
+        return ResponseEntity.ok(mapperDevice.lstDeviceEntityToLstDeviceResponseDTO(lst));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<DeviceDTO> findByIdDevice(@PathVariable("id") Integer id) throws Exception {
-        DeviceDTO dto = mapperDevice.DeviceEntityToDeviceDTO(DeviceService.findByIdDevice(id));
+    public ResponseEntity<DeviceResponseDTO> findByIdDevice(@PathVariable("id") Integer id) throws Exception {
+        DeviceResponseDTO dto = mapperDevice.DeviceEntityToDeviceResponseDTO(DeviceService.findByIdDevice(id));
 
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<DeviceEntity> saveDevice(@Valid @RequestBody DeviceDTO DeviceDTO) throws Exception{
-        DeviceEntity DeviceEntity = DeviceService.saveDevice(mapperDevice.DeviceDTOToDeviceEntity(DeviceDTO));
+    public ResponseEntity<DeviceEntity> saveDevice(@Valid @RequestBody DeviceRequestDTO DeviceRequestDTO) throws Exception{
+        DeviceEntity DeviceEntity = DeviceService.saveDevice(mapperDevice.DeviceRequestDTOToDeviceEntity(DeviceRequestDTO));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(DeviceEntity.getIdDevice()).toUri();
 
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<DeviceEntity> updateDevice(@Valid @RequestBody DeviceDTO DeviceDTO, @PathVariable("id") Integer id) throws Exception {
-        DeviceDTO.setIdDevice(id);
-        DeviceEntity DeviceEntity = DeviceService.updateDevice(mapperDevice.DeviceDTOToDeviceEntity(DeviceDTO), id);
+    public ResponseEntity<DeviceEntity> updateDevice(@Valid @RequestBody DeviceRequestDTO DeviceRequestDTO, @PathVariable("id") Integer id) throws Exception {
+        DeviceRequestDTO.setIdDevice(id);
+        DeviceEntity DeviceEntity = DeviceService.updateDevice(mapperDevice.DeviceRequestDTOToDeviceEntity(DeviceRequestDTO), id);
 
         return ResponseEntity.ok(DeviceEntity);
     }
