@@ -7,13 +7,14 @@ import com.inventariosips.device.dto.request.DeviceRequestDTO;
 import com.inventariosips.device.dto.response.DeviceResponseDTO;
 import com.inventariosips.device.model.DeviceEntity;
 import com.inventariosips.statusDevice.model.StatusDeviceEntity;
+import com.inventariosips.warranty.mapper.IMapperWarranty;
 import com.inventariosips.warranty.model.WarrantyEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {IMapperWarranty.class})
 public interface IMapperDevice {
 
     //RESPONSE
