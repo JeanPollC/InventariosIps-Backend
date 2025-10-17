@@ -1,6 +1,7 @@
 package com.inventariosips.user.controller;
 
-import com.inventariosips.user.dto.UserDTO;
+import com.inventariosips.user.dto.request.UserRequestDTO;
+import com.inventariosips.user.dto.response.UserResponseDTO;
 import com.inventariosips.user.mapper.IMapperUser;
 import com.inventariosips.user.model.UserEntity;
 import com.inventariosips.user.service.IUserService;
@@ -22,20 +23,20 @@ public class UserController {
     private final IMapperUser mapperUser;
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> findAllUsersTypes() throws Exception {
+    public ResponseEntity<List<UserResponseDTO>> findAllUsersTypes() throws Exception {
         List<UserEntity> lst = userService.findAllUser().stream().toList();
-        return ResponseEntity.ok(mapperUser.lstUserEntityToLstUserDTO(lst));
+        return ResponseEntity.ok(mapperUser.lstUserEntityToLstUserResponseDTO(lst));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserDTO> findByIdUser(@PathVariable("id") Integer id) throws Exception {
-        UserDTO dto = mapperUser.userEntityToUserDTO(userService.findByIdUser(id));
+    public ResponseEntity<UserResponseDTO> findByIdUser(@PathVariable("id") Integer id) throws Exception {
+        UserResponseDTO dto = mapperUser.UserEntityToUserResponseDTO(userService.findByIdUser(id));
 
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<UserEntity> saveUser(@Valid @RequestBody UserDTO userDTO) throws Exception{
+    public ResponseEntity<UserEntity> saveUser(@Valid @RequestBody UserRequestDTO userDTO) throws Exception{
         UserEntity userEntity = userService.saveUser(mapperUser.userDTOToUserEntity(userDTO));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userEntity.getIdUser()).toUri();
 
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserEntity> updateUser(@Valid @RequestBody UserDTO userDTO, @PathVariable("id") Integer id) throws Exception {
+    public ResponseEntity<UserEntity> updateUser(@Valid @RequestBody UserRequestDTO userDTO, @PathVariable("id") Integer id) throws Exception {
         userDTO.setIdUser(id);
         UserEntity userEntity = userService.updateUser(mapperUser.userDTOToUserEntity(userDTO), id);
 
