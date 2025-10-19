@@ -1,6 +1,5 @@
-package com.inventariosips.UserDevice.dto;
+package com.inventariosips.loans.dto.request;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +10,9 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDeviceDTO {
+public class LoansRequestDTO {
 
-    private Integer idUserDevice;
+    private Integer idLoans;
 
     @NotNull
     private Integer idUser;
@@ -22,10 +21,12 @@ public class UserDeviceDTO {
     private Integer idDevice;
 
     @NotNull
-    private LocalDateTime assignmentDate;
-
-    private LocalDateTime deliveryDate;
+    private LocalDateTime startDateLoan;
 
     @NotNull
-    private String status;
+    private LocalDateTime endDateLoan;
+
+    private byte[] loanDocument;
+
 }
+

@@ -3,7 +3,6 @@ package com.inventariosips.user.mapper;
 import com.inventariosips.user.dto.request.UserRequestDTO;
 import com.inventariosips.user.dto.response.UserResponseDTO;
 import com.inventariosips.user.model.UserEntity;
-import com.inventariosips.user.model.UserEntity;
 import com.inventariosips.userType.model.UserTypeEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

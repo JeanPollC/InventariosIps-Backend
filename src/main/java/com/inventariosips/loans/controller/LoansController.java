@@ -1,6 +1,7 @@
 package com.inventariosips.loans.controller;
 
-import com.inventariosips.loans.dto.LoansDTO;
+import com.inventariosips.loans.dto.request.LoansRequestDTO;
+import com.inventariosips.loans.dto.response.LoansResponseDTO;
 import com.inventariosips.loans.mapper.IMapperLoans;
 import com.inventariosips.loans.model.LoansEntity;
 import com.inventariosips.loans.service.ILoansService;
@@ -22,20 +23,20 @@ public class LoansController {
     private final IMapperLoans mapperLoans;
 
     @GetMapping
-    public ResponseEntity<List<LoansDTO>> findAllLoanssTypes() throws Exception {
+    public ResponseEntity<List<LoansResponseDTO>> findAllLoanssTypes() throws Exception {
         List<LoansEntity> lst = loansService.findAllLoans().stream().toList();
-        return ResponseEntity.ok(mapperLoans.lstLoansEntityToLstLoansDTO(lst));
+        return ResponseEntity.ok(mapperLoans.lstLoansEntityToLstLoansResponseDTO(lst));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<LoansDTO> findByIdLoans(@PathVariable("id") Integer id) throws Exception {
-        LoansDTO dto = mapperLoans.loansEntityToLoansDTO(loansService.findByIdLoans(id));
+    public ResponseEntity<LoansResponseDTO> findByIdLoans(@PathVariable("id") Integer id) throws Exception {
+        LoansResponseDTO dto = mapperLoans.LoansEntityToLoansResponseDTO(loansService.findByIdLoans(id));
 
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<LoansEntity> saveLoans(@Valid @RequestBody LoansDTO loansDTO) throws Exception{
+    public ResponseEntity<LoansEntity> saveLoans(@Valid @RequestBody LoansRequestDTO loansDTO) throws Exception{
         LoansEntity loansEntity = loansService.saveLoans(mapperLoans.loansDTOToLoansEntity(loansDTO));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(loansEntity.getIdLoans()).toUri();
 
@@ -43,7 +44,7 @@ public class LoansController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<LoansEntity> updateLoans(@Valid @RequestBody LoansDTO loansDTO, @PathVariable("id") Integer id) throws Exception {
+    public ResponseEntity<LoansEntity> updateLoans(@Valid @RequestBody LoansRequestDTO loansDTO, @PathVariable("id") Integer id) throws Exception {
         loansDTO.setIdLoans(id);
         LoansEntity loansEntity = loansService.updateLoans(mapperLoans.loansDTOToLoansEntity(loansDTO), id);
 

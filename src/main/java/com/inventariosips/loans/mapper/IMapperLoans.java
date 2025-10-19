@@ -1,7 +1,8 @@
 package com.inventariosips.loans.mapper;
 
 import com.inventariosips.device.model.DeviceEntity;
-import com.inventariosips.loans.dto.LoansDTO;
+import com.inventariosips.loans.dto.request.LoansRequestDTO;
+import com.inventariosips.loans.dto.response.LoansResponseDTO;
 import com.inventariosips.loans.model.LoansEntity;
 import com.inventariosips.user.model.UserEntity;
 import org.mapstruct.Mapper;
@@ -12,15 +13,15 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface IMapperLoans {
 
-    @Mapping(source = "idUser", target = "userEntity")
-    @Mapping(source = "idDevice", target = "deviceEntity")
-    LoansEntity loansDTOToLoansEntity(LoansDTO loansDTO);
+    //RESPONSE
+    LoansResponseDTO LoansEntityToLoansResponseDTO(LoansEntity loansEntity);
 
-    @Mapping(source = "userEntity.idUser", target = "idUser")
-    @Mapping(source = "deviceEntity.idDevice", target = "idDevice")
-    LoansDTO loansEntityToLoansDTO(LoansEntity loansEntity);
+    List<LoansResponseDTO> lstLoansEntityToLstLoansResponseDTO(List<LoansEntity> loansListEntity);
 
-    List<LoansDTO> lstLoansEntityToLstLoansDTO(List<LoansEntity> loansEntity);
+    //REQUEST
+    @Mapping(source = "idUser", target = "user")
+    @Mapping(source = "idDevice", target = "device")
+    LoansEntity loansDTOToLoansEntity(LoansRequestDTO loansDTO);
 
     default UserEntity mapUser(Integer idUser) {
         if (idUser == null){
@@ -39,7 +40,5 @@ public interface IMapperLoans {
         device.setIdDevice(idDevice);
         return device;
     }
-
-
 
 }

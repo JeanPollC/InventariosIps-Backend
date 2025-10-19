@@ -1,6 +1,7 @@
 package com.inventariosips.UserDevice.controller;
 
-import com.inventariosips.UserDevice.dto.UserDeviceDTO;
+import com.inventariosips.UserDevice.dto.request.UserDeviceRequestDTO;
+import com.inventariosips.UserDevice.dto.response.UserDeviceResponseDTO;
 import com.inventariosips.UserDevice.mapper.IMapperUserDevice;
 import com.inventariosips.UserDevice.model.UserDeviceEntity;
 import com.inventariosips.UserDevice.service.IUserDeviceService;
@@ -22,20 +23,20 @@ public class UserDeviceController {
     private final IMapperUserDevice mapperUserDevice;
 
     @GetMapping
-    public ResponseEntity<List<UserDeviceDTO>> findAllUserDevicesTypes() throws Exception {
+    public ResponseEntity<List<UserDeviceResponseDTO>> findAllUserDevicesTypes() throws Exception {
         List<UserDeviceEntity> lst = userDeviceService.findAllUserDevice().stream().toList();
-        return ResponseEntity.ok(mapperUserDevice.lstUserDeviceEntityToLstUserDeviceDTO(lst));
+        return ResponseEntity.ok(mapperUserDevice.lstUserDeviceEntityToLstUserDeviceResponseDTO(lst));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserDeviceDTO> findByIdUserDevice(@PathVariable("id") Integer id) throws Exception {
-        UserDeviceDTO dto = mapperUserDevice.userDeviceEntityToUserDeviceDTO(userDeviceService.findByIdUserDevice(id));
+    public ResponseEntity<UserDeviceResponseDTO> findByIdUserDevice(@PathVariable("id") Integer id) throws Exception {
+        UserDeviceResponseDTO dto = mapperUserDevice.UserDeviceEntityToUserDeviceResponseDTO(userDeviceService.findByIdUserDevice(id));
 
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<UserDeviceEntity> saveUserDevice(@Valid @RequestBody UserDeviceDTO userDeviceDTO) throws Exception{
+    public ResponseEntity<UserDeviceEntity> saveUserDevice(@Valid @RequestBody UserDeviceRequestDTO userDeviceDTO) throws Exception{
         UserDeviceEntity userDeviceEntity = userDeviceService.saveUserDevice(mapperUserDevice.userDeviceDTOToUserDeviceEntity(userDeviceDTO));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userDeviceEntity.getIdUserDevice()).toUri();
 
@@ -43,7 +44,7 @@ public class UserDeviceController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserDeviceEntity> updateUserDevice(@Valid @RequestBody UserDeviceDTO userDeviceDTO, @PathVariable("id") Integer id) throws Exception {
+    public ResponseEntity<UserDeviceEntity> updateUserDevice(@Valid @RequestBody UserDeviceRequestDTO userDeviceDTO, @PathVariable("id") Integer id) throws Exception {
         userDeviceDTO.setIdUserDevice(id);
         UserDeviceEntity userDeviceEntity = userDeviceService.updateUserDevice(mapperUserDevice.userDeviceDTOToUserDeviceEntity(userDeviceDTO), id);
 

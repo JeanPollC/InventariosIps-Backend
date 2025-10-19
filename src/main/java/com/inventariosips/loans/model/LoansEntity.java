@@ -38,11 +38,11 @@ public class LoansEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false, foreignKey = @ForeignKey(name = "FK_LOAN_USER"))
-    private UserEntity userEntity;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "id_device", nullable = false, foreignKey = @ForeignKey(name = "FK_LOAN_DEVICE"))
-    private DeviceEntity deviceEntity;
+    private DeviceEntity device;
 
     @Column
     private byte[] loanDocument;

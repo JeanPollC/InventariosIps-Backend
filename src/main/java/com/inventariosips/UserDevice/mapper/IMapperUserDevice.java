@@ -1,6 +1,7 @@
 package com.inventariosips.UserDevice.mapper;
 
-import com.inventariosips.UserDevice.dto.UserDeviceDTO;
+import com.inventariosips.UserDevice.dto.request.UserDeviceRequestDTO;
+import com.inventariosips.UserDevice.dto.response.UserDeviceResponseDTO;
 import com.inventariosips.UserDevice.model.UserDeviceEntity;
 import com.inventariosips.device.model.DeviceEntity;
 import com.inventariosips.user.model.UserEntity;
@@ -12,15 +13,15 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface IMapperUserDevice {
 
-   @Mapping(source = "idUser", target = "user")
-   @Mapping(source = "idDevice", target = "device")
-    UserDeviceEntity userDeviceDTOToUserDeviceEntity(UserDeviceDTO userDeviceDTO);
+    //RESPONSE
+    UserDeviceResponseDTO UserDeviceEntityToUserDeviceResponseDTO(UserDeviceEntity userDeviceEntity);
 
-    @Mapping(source = "user.idUser", target = "idUser")
-    @Mapping(source = "device.idDevice", target = "idDevice")
-    UserDeviceDTO userDeviceEntityToUserDeviceDTO(UserDeviceEntity userDeviceEntity);
+    List<UserDeviceResponseDTO> lstUserDeviceEntityToLstUserDeviceResponseDTO(List<UserDeviceEntity> usersDeviceListEntity);
 
-    List<UserDeviceDTO> lstUserDeviceEntityToLstUserDeviceDTO(List<UserDeviceEntity> userDeviceEntity);
+    //REQUEST
+    @Mapping(source = "idUser", target = "user")
+    @Mapping(source = "idDevice", target = "device")
+    UserDeviceEntity userDeviceDTOToUserDeviceEntity(UserDeviceRequestDTO userDeviceDTO);
 
     default UserEntity mapUser(Integer idUser){
         if (idUser == null) return null;
