@@ -45,5 +45,5 @@ public class LoansEntity {
     private DeviceEntity device;
 
     @Column
-    private byte[] loanDocument;
+    private String loanDocument;
 }

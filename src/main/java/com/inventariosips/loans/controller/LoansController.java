@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -56,6 +57,19 @@ public class LoansController {
         loansService.deleteLoans(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadPdf(
+            @RequestParam("loanId") Integer loanId,
+            @RequestParam("file")MultipartFile file) {
+        try{
+            String url = loansService.uploadPdf(file, loanId);
+            return ResponseEntity.ok(url);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al subir archivo: " + e.getMessage());
+        }
+
     }
 
 }

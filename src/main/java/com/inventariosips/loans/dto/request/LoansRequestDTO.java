@@ -26,7 +26,7 @@ public class LoansRequestDTO {
     @NotNull
     private LocalDateTime endDateLoan;
 
-    private byte[] loanDocument;
+    private String loanDocument;
 
 }
 

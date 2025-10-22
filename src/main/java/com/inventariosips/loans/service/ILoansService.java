@@ -1,7 +1,9 @@
 package com.inventariosips.loans.service;
 
 import com.inventariosips.loans.model.LoansEntity;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ILoansService {
@@ -11,4 +13,6 @@ public interface ILoansService {
     List<LoansEntity> findAllLoans();
     LoansEntity findByIdLoans(Integer id);
     void deleteLoans(Integer id);
+
+    String uploadPdf(MultipartFile file, Integer loanId) throws IOException;
 }
