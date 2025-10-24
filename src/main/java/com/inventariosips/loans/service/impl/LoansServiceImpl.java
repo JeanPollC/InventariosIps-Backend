@@ -50,10 +50,20 @@ public class LoansServiceImpl implements ILoansService {
 
     @Override
     public String uploadPdf(MultipartFile file, Integer loanId) throws IOException {
+        // Obtener el nombre original del archivo (incluye .pdf)
+        String originalFilename = file.getOriginalFilename();
+
+        // Opcional: quitar espacios o caracteres especiales
+        String publicId = originalFilename != null ? originalFilename.replaceAll("\\s+", "_") : "documento.pdf";
+
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap(
-                        "resource_type", "auto", // importante para PDF
-                        "folder", "prestamos_documentos/" + loanId // opcional
+                        "resource_type", "raw",
+                        "type", "upload",
+                        "folder", "prestamos_documentos/" + loanId,
+                        "public_id", publicId,  // 👈 Asegura que se guarde con nombre y extensión
+                        "use_filename", true,   // 👈 Conserva el nombre del archivo
+                        "unique_filename", false // 👈 Evita que Cloudinary lo renombre
                 ));
         String url = uploadResult.get("secure_url").toString();
 
