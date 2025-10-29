@@ -11,4 +11,6 @@ public interface IDeviceService {
     List<DeviceEntity> findAllDevice();
     DeviceEntity findByIdDevice(Integer id);
     void deleteDevice(Integer id);
+
+    String getNameUserByNameDevice(String deviceName);
 }

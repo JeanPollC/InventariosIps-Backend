@@ -41,4 +41,9 @@ public class DeviceServiceImpl implements IDeviceService {
         deviceRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
         deviceRepo.deleteById(id);
     }
+
+    @Override
+    public String getNameUserByNameDevice(String deviceName) {
+        return deviceRepo.getNameUserByNameDevice(deviceName);
+    }
 }

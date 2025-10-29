@@ -58,4 +58,10 @@ public class DeviceController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/nameUser")
+    public ResponseEntity<String> getNameUserByNameDevice(@RequestParam("deviceName") String deviceName) {
+        String userName = DeviceService.getNameUserByNameDevice(deviceName);
+        return ResponseEntity.ok(userName);
+    }
+
 }
