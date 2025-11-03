@@ -1,4 +1,4 @@
-package com.inventariosips.UserDevice.model;
+package com.inventariosips.userDevice.model;
 
 import com.inventariosips.device.model.DeviceEntity;
 import com.inventariosips.user.model.UserEntity;

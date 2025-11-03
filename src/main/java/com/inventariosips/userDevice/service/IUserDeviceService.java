@@ -1,7 +1,8 @@
-package com.inventariosips.UserDevice.service;
+package com.inventariosips.userDevice.service;
 
-import com.inventariosips.UserDevice.model.UserDeviceEntity;
+import com.inventariosips.userDevice.model.UserDeviceEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IUserDeviceService {
@@ -11,4 +12,5 @@ public interface IUserDeviceService {
     List<UserDeviceEntity> findAllUserDevice();
     UserDeviceEntity findByIdUserDevice(Integer id);
     void deleteUserDevice(Integer id);
+    UserDeviceEntity closeAssignment(Integer idUserDevice, LocalDateTime deliveryDate);
 }

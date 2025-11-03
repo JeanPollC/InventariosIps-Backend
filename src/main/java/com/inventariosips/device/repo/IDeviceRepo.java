@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IDeviceRepo extends JpaRepository<DeviceEntity, Integer> {
 
@@ -15,6 +17,13 @@ public interface IDeviceRepo extends JpaRepository<DeviceEntity, Integer> {
             	inner join user_entity u on u.id_user = ud.id_user
             	inner join device d on ud.id_device = d.id_device
             	where d.name = :deviceName
+                AND (
+                    ud.delivery_date IS NULL
+                    OR ud.delivery_date > NOW()\s
+                )
             """, nativeQuery = true)
     String getNameUserByNameDevice(@Param("deviceName") String deviceName);
+
+    List<DeviceEntity> findByStatusDevice_NameStatus(String nameStatus);
+
 }

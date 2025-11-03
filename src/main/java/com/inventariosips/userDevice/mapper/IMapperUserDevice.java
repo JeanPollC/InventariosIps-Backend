@@ -1,8 +1,8 @@
-package com.inventariosips.UserDevice.mapper;
+package com.inventariosips.userDevice.mapper;
 
-import com.inventariosips.UserDevice.dto.request.UserDeviceRequestDTO;
-import com.inventariosips.UserDevice.dto.response.UserDeviceResponseDTO;
-import com.inventariosips.UserDevice.model.UserDeviceEntity;
+import com.inventariosips.userDevice.dto.request.UserDeviceRequestDTO;
+import com.inventariosips.userDevice.dto.response.UserDeviceResponseDTO;
+import com.inventariosips.userDevice.model.UserDeviceEntity;
 import com.inventariosips.device.model.DeviceEntity;
 import com.inventariosips.user.model.UserEntity;
 import org.mapstruct.Mapper;

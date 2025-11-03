@@ -23,7 +23,6 @@ public class LoansRequestDTO {
     @NotNull
     private LocalDateTime startDateLoan;
 
-    @NotNull
     private LocalDateTime endDateLoan;
 
     private String loanDocument;

@@ -15,5 +15,7 @@ public class StatusDeviceDTO{
 
         @NotNull
         @Size(min = 5)
-        private String description;
+        private String nameStatus;
+
+        private Boolean isFixed;
 }

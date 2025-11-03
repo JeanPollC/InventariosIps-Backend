@@ -1,10 +1,10 @@
-package com.inventariosips.UserDevice.controller;
+package com.inventariosips.userDevice.controller;
 
-import com.inventariosips.UserDevice.dto.request.UserDeviceRequestDTO;
-import com.inventariosips.UserDevice.dto.response.UserDeviceResponseDTO;
-import com.inventariosips.UserDevice.mapper.IMapperUserDevice;
-import com.inventariosips.UserDevice.model.UserDeviceEntity;
-import com.inventariosips.UserDevice.service.IUserDeviceService;
+import com.inventariosips.userDevice.dto.request.UserDeviceRequestDTO;
+import com.inventariosips.userDevice.dto.response.UserDeviceResponseDTO;
+import com.inventariosips.userDevice.mapper.IMapperUserDevice;
+import com.inventariosips.userDevice.model.UserDeviceEntity;
+import com.inventariosips.userDevice.service.IUserDeviceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

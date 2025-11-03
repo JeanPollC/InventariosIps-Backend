@@ -17,5 +17,8 @@ public class StatusDeviceEntity {
     private Integer idStatusDevice;
 
     @Column(nullable = false, length = 50)
-    private String description;
+    private String nameStatus;
+
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isFixed = false;
 }

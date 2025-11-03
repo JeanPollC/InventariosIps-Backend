@@ -2,6 +2,8 @@ package com.inventariosips.loans.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.inventariosips.device.model.DeviceEntity;
+import com.inventariosips.device.service.IDeviceService;
 import com.inventariosips.exception.ModelNotFoundException;
 import com.inventariosips.loans.model.LoansEntity;
 import com.inventariosips.loans.repo.ILoansRepo;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +24,22 @@ public class LoansServiceImpl implements ILoansService {
 
     private final ILoansRepo loansRepo;
     private final Cloudinary cloudinary;
+    private final IDeviceService deviceService;
 
     @Override
     public LoansEntity saveLoans(LoansEntity loansEntity) {
-        return loansRepo.save(loansEntity);
+        DeviceEntity device = deviceService.findByIdDevice(loansEntity.getDevice().getIdDevice());
+
+        if (device == null) {
+            throw new ModelNotFoundException("Dispositivo no encontrado con ID: " + loansEntity.getDevice().getIdDevice());
+        }
+
+        // Aquí decides si es asignación o préstamo, según el tipo
+        if (loansEntity.getDevice().getStatusDevice().getNameStatus().equals("Disponible")) {
+            return createLoan(loansEntity);
+        } else {
+            throw new IllegalStateException("El dispositivo no está disponible para asignar.");
+        }
     }
 
     @Override
@@ -74,4 +90,41 @@ public class LoansServiceImpl implements ILoansService {
 
         return url;
     }
+
+    @Override
+    public LoansEntity createLoan(LoansEntity loan) {
+        if (loan.getDevice().getStatusDevice().getNameStatus().equals("Disponible")) {
+            //Guarda el prestamo
+            LoansEntity saveLoan = loansRepo.save(loan);
+
+            //Cambia el estado del prestamo
+            deviceService.updateDeviceStatus(loan.getDevice().getIdDevice(), 3);
+
+            return saveLoan;
+        } else {
+            throw new IllegalStateException("El dispositivo no está disponible para préstamo.");
+        }
+    }
+
+    @Override
+    public LoansEntity closeLoan(Integer idLoan, LocalDateTime endDateLoan) {
+        LoansEntity loan = loansRepo.findById(idLoan)
+                .orElseThrow(()-> new ModelNotFoundException("Prestamo no encontrada"));
+
+        // Si el usuario envía una fecha, úsala. Si no, toma la actual.
+        LocalDateTime effectiveEndDate  =
+                endDateLoan != null ? endDateLoan : LocalDateTime.now();
+
+        loan.setEndDateLoan(effectiveEndDate );
+        loansRepo.save(loan);
+
+        // Si la fecha ya llegó o ya pasó, liberar el dispositivo
+        if (!effectiveEndDate.isAfter(LocalDateTime.now())){
+            deviceService.updateDeviceStatus(loan.getDevice().getIdDevice(), 1);
+        }
+
+        return loan;
+    }
+
+
 }

@@ -17,12 +17,22 @@ public class StatusDeviceServiceImpl implements IStatusDeviceService {
 
     @Override
     public StatusDeviceEntity saveStatusDevice(StatusDeviceEntity statusDeviceEntity) {
+        // No se permiten estados fijos creados manualmente desde el CRUD
+        statusDeviceEntity.setIsFixed(false);
         return statusDeviceRepo.save(statusDeviceEntity);
     }
 
     @Override
     public StatusDeviceEntity updateStatusDevice(StatusDeviceEntity statusDeviceEntity, Integer id) {
-        statusDeviceRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
+        StatusDeviceEntity existing = statusDeviceRepo.findById(id)
+                .orElseThrow(() ->new ModelNotFoundException("ID NOT FOUND: " + id));
+
+        if (existing.getIsFixed()){
+            throw new IllegalStateException("No se puede modificar un estado fijo del sistema.");
+        }
+
+        statusDeviceEntity.setIdStatusDevice(id);
+        statusDeviceEntity.setIsFixed(false); // forzar a que no cambie
         return statusDeviceRepo.save(statusDeviceEntity);
     }
 
@@ -38,7 +48,12 @@ public class StatusDeviceServiceImpl implements IStatusDeviceService {
 
     @Override
     public void deleteStatusDevice(Integer id) {
-        statusDeviceRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
+        StatusDeviceEntity entity = statusDeviceRepo.findById(id)
+                .orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
+
+        if (entity.getIsFixed()){
+            throw new IllegalStateException("No se puede eliminar un estado fijo del sistema");
+        }
         statusDeviceRepo.deleteById(id);
     }
 }

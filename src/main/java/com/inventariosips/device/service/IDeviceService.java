@@ -1,7 +1,9 @@
 package com.inventariosips.device.service;
 
 import com.inventariosips.device.model.DeviceEntity;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IDeviceService {
@@ -13,4 +15,10 @@ public interface IDeviceService {
     void deleteDevice(Integer id);
 
     String getNameUserByNameDevice(String deviceName);
+
+    String uploadPdf(MultipartFile file, Integer loanId) throws IOException;
+
+    void updateDeviceStatus(Integer idDevice, Integer idStatusDevice);
+
+    List<DeviceEntity> findAvailableDevices();
 }

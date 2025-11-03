@@ -52,6 +52,6 @@ public class DeviceRequestDTO {
 
     private String observation;
 
-    private byte[] lifecycleFile;
+    private String lifecycleFile;
 
 }

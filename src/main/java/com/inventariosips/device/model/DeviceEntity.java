@@ -71,5 +71,5 @@ public class DeviceEntity {
 
     @Lob
     @Column(name = "lifecycle_file")
-    private byte[] lifecycleFile;
+    private String lifecycleFile;
 }

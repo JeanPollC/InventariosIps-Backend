@@ -1,7 +1,7 @@
-package com.inventariosips.UserDevice.repo;
+package com.inventariosips.userDevice.repo;
 
 
-import com.inventariosips.UserDevice.model.UserDeviceEntity;
+import com.inventariosips.userDevice.model.UserDeviceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,19 +1,30 @@
 package com.inventariosips.device.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.inventariosips.device.model.DeviceEntity;
 import com.inventariosips.device.repo.IDeviceRepo;
 import com.inventariosips.device.service.IDeviceService;
 import com.inventariosips.exception.ModelNotFoundException;
+import com.inventariosips.loans.model.LoansEntity;
+import com.inventariosips.statusDevice.model.StatusDeviceEntity;
+import com.inventariosips.statusDevice.repo.IStatusDeviceRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class DeviceServiceImpl implements IDeviceService {
 
     private final IDeviceRepo deviceRepo;
+    private final Cloudinary cloudinary;
+    private final IStatusDeviceRepo statusDeviceRepo;
 
     @Override
     public DeviceEntity saveDevice(DeviceEntity DeviceEntity) {
@@ -46,4 +57,50 @@ public class DeviceServiceImpl implements IDeviceService {
     public String getNameUserByNameDevice(String deviceName) {
         return deviceRepo.getNameUserByNameDevice(deviceName);
     }
+
+    @Override
+    public String uploadPdf(MultipartFile file, Integer idDevice) throws IOException {
+        // Obtener el nombre original del archivo (incluye .pdf)
+        String originalFilename = file.getOriginalFilename();
+
+        // Opcional: quitar espacios o caracteres especiales
+        String publicId = originalFilename != null ? originalFilename.replaceAll("\\s+", "_") : "documento.pdf";
+
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap(
+                        "resource_type", "raw",
+                        "type", "upload",
+                        "folder", "hoja_vida_dispositivo/" + idDevice,
+                        "public_id", publicId,  // 👈 Asegura que se guarde con nombre y extensión
+                        "use_filename", true,   // 👈 Conserva el nombre del archivo
+                        "unique_filename", false // 👈 Evita que Cloudinary lo renombre
+                ));
+        String url = uploadResult.get("secure_url").toString();
+
+        DeviceEntity device = deviceRepo.findById(idDevice)
+                .orElseThrow( () -> new RuntimeException("Prestamo no encontrado"));
+        device.setLifecycleFile(url);
+        deviceRepo.save(device);
+
+        return url;
+    }
+
+    @Override
+    public void updateDeviceStatus(Integer idDevice, Integer idStatusDevice) {
+        DeviceEntity device = deviceRepo.findById(idDevice)
+                .orElseThrow(() -> new ModelNotFoundException("Dispositivo no encontrado: " + idDevice));
+
+        StatusDeviceEntity status = statusDeviceRepo.findByIdStatusDevice(idStatusDevice)
+                .orElseThrow(() -> new ModelNotFoundException("Estado no encontrado "));
+
+        device.setStatusDevice(status);
+        deviceRepo.save(device);
+    }
+
+    @Override
+    public List<DeviceEntity> findAvailableDevices() {
+        return deviceRepo.findByStatusDevice_NameStatus("Disponible");
+    }
+
+
 }

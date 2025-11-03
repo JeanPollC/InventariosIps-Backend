@@ -33,7 +33,7 @@ public class LoansEntity {
     @Column(nullable = false)
     private LocalDateTime startDateLoan;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime endDateLoan;
 
     @ManyToOne

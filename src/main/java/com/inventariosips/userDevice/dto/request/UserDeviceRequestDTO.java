@@ -1,7 +1,5 @@
-package com.inventariosips.UserDevice.dto.response;
+package com.inventariosips.userDevice.dto.request;
 
-import com.inventariosips.device.model.DeviceEntity;
-import com.inventariosips.user.model.UserEntity;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,15 +10,15 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDeviceResponseDTO {
+public class UserDeviceRequestDTO {
 
     private Integer idUserDevice;
 
     @NotNull
-    private UserEntity user;
+    private Integer idUser;
 
     @NotNull
-    private DeviceEntity device;
+    private Integer idDevice;
 
     @NotNull
     private LocalDateTime assignmentDate;
@@ -30,3 +28,4 @@ public class UserDeviceResponseDTO {
     @NotNull
     private String status;
 }
+
