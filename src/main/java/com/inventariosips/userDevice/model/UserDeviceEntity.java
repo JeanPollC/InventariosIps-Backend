@@ -30,8 +30,10 @@ public class UserDeviceEntity {
     @Column(nullable = false)
     private LocalDateTime assignmentDate;
 
+    @Column
     private LocalDateTime deliveryDate;
 
+    @Column
     private String status;
 
 }

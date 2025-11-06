@@ -61,7 +61,7 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
             // 🔹 Si la fecha de entrega ya pasó o es igual a ahora, cerrar la asignación
             if (!userDeviceEntity.getDeliveryDate().isAfter(LocalDateTime.now())) {
                 return closeAssignment(id, userDeviceEntity.getDeliveryDate());
-            }// 1 = Disponible
+            }
         }
         return userDeviceRepo.save(existing);
     }

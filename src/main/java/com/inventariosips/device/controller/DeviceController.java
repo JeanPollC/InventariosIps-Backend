@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -67,6 +68,19 @@ public class DeviceController {
     @GetMapping("/availables")
     public ResponseEntity<List<DeviceEntity>> findAvailableDevices() {
         return ResponseEntity.ok(deviceService.findAvailableDevices());
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadPdf(
+            @RequestParam("deviceId") Integer deviceId,
+            @RequestParam("file") MultipartFile file) {
+        try{
+            String url = deviceService.uploadPdf(file, deviceId);
+            return ResponseEntity.ok(url);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al subir archivo: " + e.getMessage());
+        }
+
     }
 
 

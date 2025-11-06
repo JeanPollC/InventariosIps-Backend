@@ -25,7 +25,6 @@ public class LoansResponseDTO {
     @NotNull
     private LocalDateTime startDateLoan;
 
-    @NotNull
     private LocalDateTime endDateLoan;
 
     private String loanDocument;

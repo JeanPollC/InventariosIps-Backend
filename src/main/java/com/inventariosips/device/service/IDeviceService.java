@@ -16,7 +16,7 @@ public interface IDeviceService {
 
     String getNameUserByNameDevice(String deviceName);
 
-    String uploadPdf(MultipartFile file, Integer loanId) throws IOException;
+    String uploadPdf(MultipartFile file, Integer idDevice) throws IOException;
 
     void updateDeviceStatus(Integer idDevice, Integer idStatusDevice);
 

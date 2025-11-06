@@ -29,6 +29,6 @@ public class UserEntity {
     @JoinColumn(name = "id_user_type", nullable = false, foreignKey = @ForeignKey(name = "FK_USER_USERTYPE"))
     private UserTypeEntity userType;
 
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String status;
 }

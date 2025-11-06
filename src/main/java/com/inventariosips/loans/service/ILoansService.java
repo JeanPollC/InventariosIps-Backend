@@ -19,7 +19,5 @@ public interface ILoansService {
 
     String uploadPdf(MultipartFile file, Integer loanId) throws IOException;
 
-    LoansEntity createLoan(LoansEntity loan);
-
     LoansEntity closeLoan(Integer idLoan, LocalDateTime endDateLoan);
 }

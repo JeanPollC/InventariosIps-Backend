@@ -44,7 +44,6 @@ public class DeviceRequestDTO {
 
     private String windows_edition;
 
-    @NotNull
     private Integer idStatusDevice;
 
     @NotNull

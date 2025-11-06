@@ -14,7 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +31,16 @@ public class DeviceServiceImpl implements IDeviceService {
     private final IStatusDeviceRepo statusDeviceRepo;
 
     @Override
-    public DeviceEntity saveDevice(DeviceEntity DeviceEntity) {
-        return deviceRepo.save(DeviceEntity);
+    public DeviceEntity saveDevice(DeviceEntity deviceEntity) {
+        // Obtener el estado por defecto (ID = 1 → "Disponible")
+        StatusDeviceEntity defaultStatus = statusDeviceRepo.findById(1)
+                .orElseThrow(() -> new ModelNotFoundException("Estado por defecto no encontrado (ID = 1)"));
+
+        if (deviceEntity.getStatusDevice() == null) {
+            deviceEntity.setStatusDevice(defaultStatus);
+        }
+
+        return deviceRepo.save(deviceEntity);
     }
 
     @Override
@@ -59,7 +71,7 @@ public class DeviceServiceImpl implements IDeviceService {
     }
 
     @Override
-    public String uploadPdf(MultipartFile file, Integer idDevice) throws IOException {
+    public String uploadPdf(MultipartFile file, Integer deviceId) throws IOException {
         // Obtener el nombre original del archivo (incluye .pdf)
         String originalFilename = file.getOriginalFilename();
 
@@ -70,15 +82,15 @@ public class DeviceServiceImpl implements IDeviceService {
                 ObjectUtils.asMap(
                         "resource_type", "raw",
                         "type", "upload",
-                        "folder", "hoja_vida_dispositivo/" + idDevice,
+                        "folder", "hojas_vida_equipos/" + deviceId,
                         "public_id", publicId,  // 👈 Asegura que se guarde con nombre y extensión
                         "use_filename", true,   // 👈 Conserva el nombre del archivo
                         "unique_filename", false // 👈 Evita que Cloudinary lo renombre
                 ));
         String url = uploadResult.get("secure_url").toString();
 
-        DeviceEntity device = deviceRepo.findById(idDevice)
-                .orElseThrow( () -> new RuntimeException("Prestamo no encontrado"));
+        DeviceEntity device = deviceRepo.findById(deviceId)
+                .orElseThrow( () -> new RuntimeException("device no encontrado"));
         device.setLifecycleFile(url);
         deviceRepo.save(device);
 

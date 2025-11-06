@@ -44,7 +44,6 @@ public class DeviceResponseDTO {
 
     private String windows_edition;
 
-    @NotNull
     private StatusDeviceDTO statusDevice;
 
     @NotNull

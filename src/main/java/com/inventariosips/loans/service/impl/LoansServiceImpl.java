@@ -28,15 +28,23 @@ public class LoansServiceImpl implements ILoansService {
 
     @Override
     public LoansEntity saveLoans(LoansEntity loansEntity) {
+
         DeviceEntity device = deviceService.findByIdDevice(loansEntity.getDevice().getIdDevice());
 
         if (device == null) {
             throw new ModelNotFoundException("Dispositivo no encontrado con ID: " + loansEntity.getDevice().getIdDevice());
         }
 
+        loansEntity.setDevice(device);
+        
         // Aquí decides si es asignación o préstamo, según el tipo
         if (loansEntity.getDevice().getStatusDevice().getNameStatus().equals("Disponible")) {
-            return createLoan(loansEntity);
+            LoansEntity saved = loansRepo.save(loansEntity);
+            deviceService.updateDeviceStatus(loansEntity.getDevice().getIdDevice(),3); //Prestado
+            if (loansEntity.getEndDateLoan() != null && !loansEntity.getEndDateLoan().isAfter(LocalDateTime.now())){
+                return closeLoan(saved.getIdLoans(), saved.getEndDateLoan());
+            }
+            return saved;
         } else {
             throw new IllegalStateException("El dispositivo no está disponible para asignar.");
         }
@@ -44,7 +52,20 @@ public class LoansServiceImpl implements ILoansService {
 
     @Override
     public LoansEntity updateLoans(LoansEntity loansEntity, Integer id) {
-        loansRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
+        LoansEntity existing = loansRepo.findById(id)
+                .orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
+
+        if (loansEntity.getStartDateLoan() != null){
+            existing.setStartDateLoan(loansEntity.getStartDateLoan());
+            deviceService.updateDeviceStatus(loansEntity.getDevice().getIdDevice(), 3);
+        }
+
+        if (loansEntity.getEndDateLoan() != null) {
+            existing.setEndDateLoan(loansEntity.getEndDateLoan());
+            if (!loansEntity.getEndDateLoan().isAfter(LocalDateTime.now())){
+                return closeLoan(id, loansEntity.getEndDateLoan());
+            }
+        }
         return loansRepo.save(loansEntity);
     }
 
@@ -89,21 +110,6 @@ public class LoansServiceImpl implements ILoansService {
         loansRepo.save(loan);
 
         return url;
-    }
-
-    @Override
-    public LoansEntity createLoan(LoansEntity loan) {
-        if (loan.getDevice().getStatusDevice().getNameStatus().equals("Disponible")) {
-            //Guarda el prestamo
-            LoansEntity saveLoan = loansRepo.save(loan);
-
-            //Cambia el estado del prestamo
-            deviceService.updateDeviceStatus(loan.getDevice().getIdDevice(), 3);
-
-            return saveLoan;
-        } else {
-            throw new IllegalStateException("El dispositivo no está disponible para préstamo.");
-        }
     }
 
     @Override
