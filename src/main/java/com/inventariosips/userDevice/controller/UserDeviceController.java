@@ -52,8 +52,8 @@ public class UserDeviceController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteUserDevice(@PathVariable("id") Integer id) throws Exception {
-        userDeviceService.deleteUserDevice(id);
+    public ResponseEntity<Void> deleteUserDevice(@PathVariable("id") Integer id, @RequestBody UserDeviceEntity userDevice) throws Exception {
+        userDeviceService.deleteUserDevice(userDevice, id);
 
         return ResponseEntity.noContent().build();
     }

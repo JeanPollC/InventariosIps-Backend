@@ -11,6 +11,6 @@ public interface IUserDeviceService {
     UserDeviceEntity updateUserDevice(UserDeviceEntity userDeviceEntity, Integer id);
     List<UserDeviceEntity> findAllUserDevice();
     UserDeviceEntity findByIdUserDevice(Integer id);
-    void deleteUserDevice(Integer id);
+    void deleteUserDevice(UserDeviceEntity userDevice, Integer id);
     UserDeviceEntity closeAssignment(Integer idUserDevice, LocalDateTime deliveryDate);
 }

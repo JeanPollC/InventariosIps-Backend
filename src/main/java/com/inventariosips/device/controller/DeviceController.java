@@ -65,6 +65,12 @@ public class DeviceController {
         return ResponseEntity.ok(userName);
     }
 
+    @GetMapping("/nameUserLoan")
+    public ResponseEntity<String> getNameUserByNameDeviceLoan(@RequestParam("deviceName") String deviceName) {
+        String userName = deviceService.getNameUserByNameDeviceLoan(deviceName);
+        return ResponseEntity.ok(userName);
+    }
+
     @GetMapping("/availables")
     public ResponseEntity<List<DeviceEntity>> findAvailableDevices() {
         return ResponseEntity.ok(deviceService.findAvailableDevices());

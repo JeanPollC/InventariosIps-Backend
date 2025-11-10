@@ -70,6 +70,12 @@ public class DeviceServiceImpl implements IDeviceService {
         return deviceRepo.getNameUserByNameDevice(deviceName);
     }
 
+
+    @Override
+    public String getNameUserByNameDeviceLoan(String deviceName) {
+        return deviceRepo.getNameUserByNameDeviceLoan(deviceName);
+    }
+
     @Override
     public String uploadPdf(MultipartFile file, Integer deviceId) throws IOException {
         // Obtener el nombre original del archivo (incluye .pdf)

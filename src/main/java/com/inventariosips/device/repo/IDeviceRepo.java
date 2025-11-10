@@ -24,6 +24,19 @@ public interface IDeviceRepo extends JpaRepository<DeviceEntity, Integer> {
             """, nativeQuery = true)
     String getNameUserByNameDevice(@Param("deviceName") String deviceName);
 
+    @Query(value = """
+                select concat(u.name, ' ', u.last_name) as nameUser
+            	from loans ud
+            	inner join user_entity u on u.id_user = ud.id_user
+            	inner join device d on ud.id_device = d.id_device
+            	where d.name = :deviceName
+                AND (
+                    ud.end_date_loan IS NULL
+                    OR ud.end_date_loan > NOW()
+                )
+            """, nativeQuery = true)
+    String getNameUserByNameDeviceLoan(@Param("deviceName") String deviceName);
+
     List<DeviceEntity> findByStatusDevice_NameStatus(String nameStatus);
 
 }

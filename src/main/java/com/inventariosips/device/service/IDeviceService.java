@@ -15,6 +15,7 @@ public interface IDeviceService {
     void deleteDevice(Integer id);
 
     String getNameUserByNameDevice(String deviceName);
+    String getNameUserByNameDeviceLoan(String deviceName);
 
     String uploadPdf(MultipartFile file, Integer idDevice) throws IOException;
 

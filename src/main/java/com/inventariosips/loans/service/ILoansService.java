@@ -15,7 +15,7 @@ public interface ILoansService {
     LoansEntity updateLoans(LoansEntity loansEntity, Integer id);
     List<LoansEntity> findAllLoans();
     LoansEntity findByIdLoans(Integer id);
-    void deleteLoans(Integer id);
+    void deleteLoans(LoansEntity loan, Integer id);
 
     String uploadPdf(MultipartFile file, Integer loanId) throws IOException;
 

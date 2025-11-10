@@ -80,9 +80,10 @@ public class LoansServiceImpl implements ILoansService {
     }
 
     @Override
-    public void deleteLoans(Integer id) {
+    public void deleteLoans(LoansEntity loan, Integer id) {
         loansRepo.findById(id).orElseThrow(() -> new ModelNotFoundException("ID NOT FOUND: " + id));
         loansRepo.deleteById(id);
+        deviceService.updateDeviceStatus(loan.getDevice().getIdDevice(), 1);
     }
 
     @Override

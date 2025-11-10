@@ -69,7 +69,6 @@ public class DeviceEntity {
     @Column(columnDefinition = "TEXT")
     private String observation;
 
-    @Lob
     @Column(name = "lifecycle_file")
     private String lifecycleFile;
 }

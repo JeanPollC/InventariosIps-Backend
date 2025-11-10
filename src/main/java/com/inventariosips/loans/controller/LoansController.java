@@ -53,8 +53,8 @@ public class LoansController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteLoans(@PathVariable("id") Integer id) throws Exception {
-        loansService.deleteLoans(id);
+    public ResponseEntity<Void> deleteLoans(@PathVariable("id") Integer id, @RequestBody LoansEntity loanEntity) throws Exception {
+        loansService.deleteLoans(loanEntity, id);
 
         return ResponseEntity.noContent().build();
     }
@@ -62,7 +62,7 @@ public class LoansController {
     @PostMapping("/upload")
     public ResponseEntity<?> uploadPdf(
             @RequestParam("loanId") Integer loanId,
-            @RequestParam("file")MultipartFile file) {
+            @RequestParam("file")   MultipartFile file) {
         try{
             String url = loansService.uploadPdf(file, loanId);
             return ResponseEntity.ok(url);
