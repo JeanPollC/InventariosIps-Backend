@@ -39,9 +39,13 @@ public class LoansController {
     @PostMapping
     public ResponseEntity<LoansEntity> saveLoans(@Valid @RequestBody LoansRequestDTO loansDTO) throws Exception{
         LoansEntity loansEntity = loansService.saveLoans(mapperLoans.loansDTOToLoansEntity(loansDTO));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(loansEntity.getIdLoans()).toUri();
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(loansEntity.getIdLoans())
+                .toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(loansEntity);
     }
 
     @PutMapping("{id}")

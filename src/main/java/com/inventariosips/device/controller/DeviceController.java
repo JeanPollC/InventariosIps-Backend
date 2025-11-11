@@ -38,10 +38,14 @@ public class DeviceController {
 
     @PostMapping
     public ResponseEntity<DeviceEntity> saveDevice(@Valid @RequestBody DeviceRequestDTO DeviceRequestDTO) throws Exception{
-        DeviceEntity DeviceEntity = deviceService.saveDevice(mapperDevice.DeviceRequestDTOToDeviceEntity(DeviceRequestDTO));
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(DeviceEntity.getIdDevice()).toUri();
+        DeviceEntity deviceEntity = deviceService.saveDevice(mapperDevice.DeviceRequestDTOToDeviceEntity(DeviceRequestDTO));
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(deviceEntity.getIdDevice())
+                .toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(deviceEntity);
     }
 
     @PutMapping("{id}")
