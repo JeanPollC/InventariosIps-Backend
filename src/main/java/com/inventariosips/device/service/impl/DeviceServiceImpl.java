@@ -9,7 +9,10 @@ import com.inventariosips.exception.ModelNotFoundException;
 import com.inventariosips.loans.model.LoansEntity;
 import com.inventariosips.statusDevice.model.StatusDeviceEntity;
 import com.inventariosips.statusDevice.repo.IStatusDeviceRepo;
+import com.inventariosips.user.model.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,6 +56,11 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     public List<DeviceEntity> findAllDevice() {
         return deviceRepo.findAll();
+    }
+
+    @Override
+    public Page<DeviceEntity> findAllDevice(Pageable pageable) {
+        return deviceRepo.findAll(pageable);
     }
 
     @Override

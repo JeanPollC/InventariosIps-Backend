@@ -8,7 +8,10 @@ import com.inventariosips.exception.ModelNotFoundException;
 import com.inventariosips.loans.model.LoansEntity;
 import com.inventariosips.loans.repo.ILoansRepo;
 import com.inventariosips.loans.service.ILoansService;
+import com.inventariosips.loans.model.LoansEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -72,6 +75,11 @@ public class LoansServiceImpl implements ILoansService {
     @Override
     public List<LoansEntity> findAllLoans() {
         return loansRepo.findAll();
+    }
+
+    @Override
+    public Page<LoansEntity> findAllLoans(Pageable pageable) {
+        return loansRepo.findAll(pageable);
     }
 
     @Override

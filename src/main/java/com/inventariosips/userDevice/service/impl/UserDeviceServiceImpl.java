@@ -4,10 +4,13 @@ import com.inventariosips.device.model.DeviceEntity;
 import com.inventariosips.device.service.IDeviceService;
 import com.inventariosips.exception.ModelNotFoundException;
 import com.inventariosips.loans.model.LoansEntity;
+import com.inventariosips.user.model.UserEntity;
 import com.inventariosips.userDevice.model.UserDeviceEntity;
 import com.inventariosips.userDevice.repo.IUserDeviceRepo;
 import com.inventariosips.userDevice.service.IUserDeviceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -77,6 +80,11 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
     @Override
     public List<UserDeviceEntity> findAllUserDevice() {
         return userDeviceRepo.findAll();
+    }
+
+    @Override
+    public Page<UserDeviceEntity> findAllUserDevice(Pageable pageable) {
+        return userDeviceRepo.findAll(pageable);
     }
 
     @Override

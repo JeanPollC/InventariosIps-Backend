@@ -1,6 +1,9 @@
 package com.inventariosips.device.service;
 
 import com.inventariosips.device.model.DeviceEntity;
+import com.inventariosips.user.model.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -11,6 +14,7 @@ public interface IDeviceService {
     DeviceEntity saveDevice(DeviceEntity deviceEntity);
     DeviceEntity updateDevice(DeviceEntity deviceEntity, Integer id);
     List<DeviceEntity> findAllDevice();
+    Page<DeviceEntity> findAllDevice(Pageable pageable);
     DeviceEntity findByIdDevice(Integer id);
     void deleteDevice(Integer id);
 

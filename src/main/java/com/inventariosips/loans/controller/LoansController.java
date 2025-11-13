@@ -7,6 +7,9 @@ import com.inventariosips.loans.model.LoansEntity;
 import com.inventariosips.loans.service.ILoansService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("loans")
@@ -24,9 +28,29 @@ public class LoansController {
     private final IMapperLoans mapperLoans;
 
     @GetMapping
-    public ResponseEntity<List<LoansResponseDTO>> findAllLoanssTypes() throws Exception {
+    public ResponseEntity<List<LoansResponseDTO>> findAllLoans() throws Exception {
         List<LoansEntity> lst = loansService.findAllLoans().stream().toList();
         return ResponseEntity.ok(mapperLoans.lstLoansEntityToLstLoansResponseDTO(lst));
+    }
+
+    @GetMapping("/pageable")
+    public ResponseEntity<Page<LoansResponseDTO>> findAllLoanssPageable(Pageable pageable) throws Exception {
+        // 1. Obtener la página de entidades del servicio
+        Page<LoansEntity> loansPage = loansService.findAllLoans(pageable);
+
+        // 2. Convertir la lista de entidades (content) a DTOs
+        List<LoansResponseDTO> dtoList = loansPage.getContent().stream()
+                .map(mapperLoans::LoansEntityToLoansResponseDTO)
+                .collect(Collectors.toList());
+
+        // 3. Reconstruir la respuesta Page usando los metadatos de la página original
+        Page<LoansResponseDTO> dtoPage = new PageImpl<>(
+                dtoList,
+                pageable,
+                loansPage.getTotalElements()
+        );
+
+        return ResponseEntity.ok(dtoPage);
     }
 
     @GetMapping("{id}")
