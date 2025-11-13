@@ -39,7 +39,7 @@ public class WarrantyController {
     public ResponseEntity<WarrantyEntity> saveWarranty(@Valid @RequestBody WarrantyDTO warrantyDTO) throws Exception {
         WarrantyEntity warrantyEntity = service.saveWarranty(mapperWarranty.warrantyDTOToWarrantyEntity(warrantyDTO));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(warrantyEntity.getIdWarranty()).toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(warrantyEntity);
     }
 
     @PutMapping("/{id}")

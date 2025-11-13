@@ -49,10 +49,10 @@ public class DeviceEntity {
     @Column(length = 100)
     private String processor;
 
-    @Column(name = "product_code", nullable = false, unique = true, length = 100)
+    @Column(name = "product_code", nullable = false)
     private String product_code;
 
-    @Column(name = "serial_no", nullable = false, unique = true, length = 100)
+    @Column(name = "serial_no", nullable = false, unique = true)
     private String serial_no;
 
     @Column(name = "windows_edition", length = 100)
