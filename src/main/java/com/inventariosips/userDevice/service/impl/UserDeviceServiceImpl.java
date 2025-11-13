@@ -31,6 +31,12 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
 
         userDevice.setDevice(device);
 
+        if (userDevice.getStatus() == null && userDevice.getDeliveryDate() == null || userDevice.getDeliveryDate().isAfter(LocalDateTime.now())) {
+            userDevice.setStatus("Activo");
+        } else {
+            userDevice.setStatus(("Entregado"));
+        }
+
         // Aquí decides si es asignación o préstamo, según el tipo
         if (userDevice.getDevice().getStatusDevice().getNameStatus().equals("Disponible")) {
             UserDeviceEntity saved = userDeviceRepo.save(userDevice);
@@ -59,7 +65,9 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
         if (userDeviceEntity.getDeliveryDate() != null) {
             existing.setDeliveryDate(userDeviceEntity.getDeliveryDate());
             // 🔹 Si la fecha de entrega ya pasó o es igual a ahora, cerrar la asignación
-            if (!userDeviceEntity.getDeliveryDate().isAfter(LocalDateTime.now())) {
+            if (userDeviceEntity.getDeliveryDate().isAfter(LocalDateTime.now())) {
+                existing.setStatus("Activo");
+            } else {
                 return closeAssignment(id, userDeviceEntity.getDeliveryDate());
             }
         }
@@ -93,6 +101,7 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
         LocalDateTime endDate  =
                 deliveryDate != null ? deliveryDate : LocalDateTime.now();
 
+        userDevice.setStatus("Entregado");
         userDevice.setDeliveryDate(endDate);
         userDeviceRepo.save(userDevice);
 

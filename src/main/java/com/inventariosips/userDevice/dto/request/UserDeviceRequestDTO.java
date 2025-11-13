@@ -25,7 +25,6 @@ public class UserDeviceRequestDTO {
 
     private LocalDateTime deliveryDate;
 
-    @NotNull
     private String status;
 }
 
