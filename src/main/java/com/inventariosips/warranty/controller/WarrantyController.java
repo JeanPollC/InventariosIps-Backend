@@ -52,7 +52,6 @@ public class WarrantyController {
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteWarranty(@PathVariable("id") Integer id) throws Exception {
         service.deleteWarranty(id);
-
         return ResponseEntity.noContent().build();
     }
 
