@@ -7,12 +7,16 @@ import com.inventariosips.user.model.UserEntity;
 import com.inventariosips.user.service.IUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("users")
@@ -23,9 +27,29 @@ public class UserController {
     private final IMapperUser mapperUser;
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> findAllUsersTypes() throws Exception {
+    public ResponseEntity<List<UserResponseDTO>> findAllUsers() throws Exception {
         List<UserEntity> lst = userService.findAllUser().stream().toList();
         return ResponseEntity.ok(mapperUser.lstUserEntityToLstUserResponseDTO(lst));
+    }
+
+    @GetMapping("/pageable")
+    public ResponseEntity<Page<UserResponseDTO>> findAllUsersPageable(Pageable pageable) throws Exception {
+        // 1. Obtener la página de entidades del servicio
+        Page<UserEntity> userPage = userService.findAllUser(pageable);
+
+        // 2. Convertir la lista de entidades (content) a DTOs
+        List<UserResponseDTO> dtoList = userPage.getContent().stream()
+                .map(mapperUser::UserEntityToUserResponseDTO)
+                .collect(Collectors.toList());
+
+        // 3. Reconstruir la respuesta Page usando los metadatos de la página original
+        Page<UserResponseDTO> dtoPage = new PageImpl<>(
+                dtoList,
+                pageable,
+                userPage.getTotalElements()
+        );
+
+        return ResponseEntity.ok(dtoPage);
     }
 
     @GetMapping("{id}")

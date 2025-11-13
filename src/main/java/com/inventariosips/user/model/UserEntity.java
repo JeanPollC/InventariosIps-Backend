@@ -26,7 +26,7 @@ public class UserEntity {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "id_user_type", nullable = false, foreignKey = @ForeignKey(name = "FK_USER_USERTYPE"))
+    @JoinColumn(name = "id_user_type", foreignKey = @ForeignKey(name = "FK_USER_USERTYPE"))
     private UserTypeEntity userType;
 
     @Column(length = 20)

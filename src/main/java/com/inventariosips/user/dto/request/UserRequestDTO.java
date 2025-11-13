@@ -22,7 +22,6 @@ public class UserRequestDTO {
     @Email
     private String email;
 
-    @NotNull
     private Integer idUserType;
 
     @NotNull

@@ -5,6 +5,8 @@ import com.inventariosips.user.model.UserEntity;
 import com.inventariosips.user.repo.IUserRepo;
 import com.inventariosips.user.service.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +31,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<UserEntity> findAllUser() {
         return userRepo.findAll();
+    }
+
+    @Override
+    public Page<UserEntity> findAllUser(Pageable pageable) {
+        return userRepo.findAll(pageable);
     }
 
     @Override
