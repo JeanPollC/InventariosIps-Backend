@@ -31,7 +31,6 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
 
         userDevice.setDevice(device);
 
-        // Aquí decides si es asignación o préstamo, según el tipo
         if (userDevice.getDevice().getStatusDevice().getNameStatus().equals("Disponible")) {
             UserDeviceEntity saved = userDeviceRepo.save(userDevice);
             deviceService.updateDeviceStatus(userDevice.getDevice().getIdDevice(), 2);//SE PASA A ESTADO ASIGNADO

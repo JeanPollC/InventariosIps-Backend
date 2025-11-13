@@ -40,6 +40,7 @@ public class DeviceServiceImpl implements IDeviceService {
             deviceEntity.setStatusDevice(defaultStatus);
         }
 
+
         return deviceRepo.save(deviceEntity);
     }
 

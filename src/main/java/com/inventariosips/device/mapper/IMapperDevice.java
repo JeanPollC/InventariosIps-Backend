@@ -24,13 +24,14 @@ public interface IMapperDevice {
 
 
     //REQUEST
-    @Mapping(source = "idArea", target = "area.idArea")
-    @Mapping(source = "idBrand", target = "brand.idBrand")
-    @Mapping(source = "idStatusDevice", target = "statusDevice.idStatusDevice")
-    @Mapping(source = "idWarranty", target = "warranty.idWarranty")
+    @Mapping(source = "idArea", target = "area", qualifiedByName = "mapArea")
+    @Mapping(source = "idBrand", target = "brand", qualifiedByName = "mapBrand")
+    @Mapping(source = "idStatusDevice", target = "statusDevice", qualifiedByName = "mapStatusDevice")
+    @Mapping(source = "idWarranty", target = "warranty", qualifiedByName = "mapWarranty")
     DeviceEntity DeviceRequestDTOToDeviceEntity(DeviceRequestDTO deviceDTO);
 
 
+    @org.mapstruct.Named("mapArea")
     default AreaEntity mapArea(Integer id) {
         if (id == null) return null;
         AreaEntity area = new AreaEntity();
@@ -38,6 +39,7 @@ public interface IMapperDevice {
         return area;
     }
 
+    @org.mapstruct.Named("mapBrand")
     default BrandEntity mapBrand(Integer id) {
         if (id == null) return null;
         BrandEntity brand = new BrandEntity();
@@ -45,6 +47,7 @@ public interface IMapperDevice {
         return brand;
     }
 
+    @org.mapstruct.Named("mapStatusDevice")
     default StatusDeviceEntity mapStatusDevice(Integer id) {
         if (id == null) return null;
         StatusDeviceEntity status = new StatusDeviceEntity();
@@ -52,6 +55,7 @@ public interface IMapperDevice {
         return status;
     }
 
+    @org.mapstruct.Named("mapWarranty")
     default WarrantyEntity mapWarranty(Integer id) {
         if (id == null) return null;
         WarrantyEntity warranty = new WarrantyEntity();

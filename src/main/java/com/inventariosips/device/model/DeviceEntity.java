@@ -63,7 +63,7 @@ public class DeviceEntity {
     private StatusDeviceEntity statusDevice;
 
     @ManyToOne
-    @JoinColumn(name = "id_warranty", nullable = false, foreignKey = @ForeignKey(name = "FK_DEVICE_WARRANTY"))
+    @JoinColumn(name = "id_warranty", foreignKey = @ForeignKey(name = "FK_DEVICE_WARRANTY"))
     private WarrantyEntity warranty;
 
     @Column(columnDefinition = "TEXT")

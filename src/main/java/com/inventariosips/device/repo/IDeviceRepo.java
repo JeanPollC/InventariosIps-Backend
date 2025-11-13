@@ -19,7 +19,7 @@ public interface IDeviceRepo extends JpaRepository<DeviceEntity, Integer> {
             	where d.name = :deviceName
                 AND (
                     ud.delivery_date IS NULL
-                    OR ud.delivery_date > NOW()\s
+                    OR ud.delivery_date > NOW()
                 )
             """, nativeQuery = true)
     String getNameUserByNameDevice(@Param("deviceName") String deviceName);

@@ -46,7 +46,6 @@ public class DeviceRequestDTO {
 
     private Integer idStatusDevice;
 
-    @NotNull
     private Integer idWarranty;
 
     private String observation;

@@ -15,7 +15,7 @@
     <description>InventariosIps</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -79,8 +79,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>21</source> <!-- usa 21 ya que en properties tienes java.version=21 -->
-                    <target>21</target>
+                    <source>17</source> <!-- usa 21 ya que en properties tienes java.version=21 -->
+                    <target>17</target>
                     <annotationProcessorPaths>
                         <!-- Lombok -->
                         <path>
