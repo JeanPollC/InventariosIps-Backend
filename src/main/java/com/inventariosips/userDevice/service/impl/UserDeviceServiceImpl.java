@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 @Service
@@ -58,6 +59,7 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
         UserDeviceEntity existing = userDeviceRepo.findById(id)
                 .orElseThrow(() -> new ModelNotFoundException("Asignación no encontrada con ID: " + id));
 
+
         // 🔹 Actualizar fecha de asignación
         if (userDeviceEntity.getAssignmentDate() != null) {
             existing.setAssignmentDate(userDeviceEntity.getAssignmentDate());
@@ -74,6 +76,20 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
                 return closeAssignment(id, userDeviceEntity.getDeliveryDate());
             }
         }
+
+        if (userDeviceEntity.getUser() != null && userDeviceEntity.getUser().getIdUser() != null){
+            if (!userDeviceEntity.getUser().getIdUser().equals(existing.getUser().getIdUser())){
+                existing.setUser(userDeviceEntity.getUser());
+            }
+        }
+
+        if (userDeviceEntity.getDevice() != null && userDeviceEntity.getDevice().getIdDevice() != null){
+            if (!userDeviceEntity.getDevice().getIdDevice().equals(existing.getDevice().getIdDevice())){
+                existing.setDevice(userDeviceEntity.getDevice());
+                deviceService.updateDeviceStatus(userDeviceEntity.getDevice().getIdDevice(), 2);
+            }
+        }
+
         return userDeviceRepo.save(existing);
     }
 
@@ -83,7 +99,10 @@ public class UserDeviceServiceImpl implements IUserDeviceService {
     }
 
     @Override
-    public Page<UserDeviceEntity> findAllUserDevice(Pageable pageable) {
+    public Page<UserDeviceEntity> findAllUserDevice(Pageable pageable, String filter) {
+        if (filter != null && !filter.trim().isEmpty()) {
+            return userDeviceRepo.findByGlobalFilter(filter.toLowerCase(), pageable);
+        }
         return userDeviceRepo.findAll(pageable);
     }
 

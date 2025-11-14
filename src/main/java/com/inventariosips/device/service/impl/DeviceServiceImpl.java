@@ -59,7 +59,10 @@ public class DeviceServiceImpl implements IDeviceService {
     }
 
     @Override
-    public Page<DeviceEntity> findAllDevice(Pageable pageable) {
+    public Page<DeviceEntity> findAllDevice(Pageable pageable, String filter) {
+        if (filter != null && !filter.trim().isEmpty()) {
+            return deviceRepo.findByGlobalFilter(filter.toLowerCase(), pageable);
+        }
         return deviceRepo.findAll(pageable);
     }
 

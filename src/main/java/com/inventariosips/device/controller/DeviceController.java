@@ -36,9 +36,11 @@ public class DeviceController {
     }
 
     @GetMapping("/pageable")
-    public ResponseEntity<Page<DeviceResponseDTO>> findAllDevicesPageable(Pageable pageable) throws Exception {
+    public ResponseEntity<Page<DeviceResponseDTO>> findAllDevicesPageable(
+            Pageable pageable,
+            @RequestParam(name = "filter", required = false, defaultValue = "") String filter) throws Exception {
         // 1. Obtener la página de entidades del servicio
-        Page<DeviceEntity> userPage = deviceService.findAllDevice(pageable);
+        Page<DeviceEntity> userPage = deviceService.findAllDevice(pageable, filter);
 
         // 2. Convertir la lista de entidades (content) a DTOs
         List<DeviceResponseDTO> dtoList = userPage.getContent().stream()

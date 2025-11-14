@@ -14,7 +14,7 @@ public interface IDeviceService {
     DeviceEntity saveDevice(DeviceEntity deviceEntity);
     DeviceEntity updateDevice(DeviceEntity deviceEntity, Integer id);
     List<DeviceEntity> findAllDevice();
-    Page<DeviceEntity> findAllDevice(Pageable pageable);
+    Page<DeviceEntity> findAllDevice(Pageable pageable, String filter) throws Exception;
     DeviceEntity findByIdDevice(Integer id);
     void deleteDevice(Integer id);
 

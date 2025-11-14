@@ -13,7 +13,7 @@ public interface IUserDeviceService {
     UserDeviceEntity saveUserDevice(UserDeviceEntity userDeviceEntity);
     UserDeviceEntity updateUserDevice(UserDeviceEntity userDeviceEntity, Integer id);
     List<UserDeviceEntity> findAllUserDevice();
-    Page<UserDeviceEntity> findAllUserDevice(Pageable pageable);
+    Page<UserDeviceEntity> findAllUserDevice(Pageable pageable, String filter) throws Exception;
     UserDeviceEntity findByIdUserDevice(Integer id);
     void deleteUserDevice(UserDeviceEntity userDevice, Integer id);
     UserDeviceEntity closeAssignment(Integer idUserDevice, LocalDateTime deliveryDate);

@@ -33,9 +33,11 @@ public class UserController {
     }
 
     @GetMapping("/pageable")
-    public ResponseEntity<Page<UserResponseDTO>> findAllUsersPageable(Pageable pageable) throws Exception {
+    public ResponseEntity<Page<UserResponseDTO>> findAllUsersPageable(
+            Pageable pageable,
+            @RequestParam(name = "filter", required = false, defaultValue = "") String filter) throws Exception {
         // 1. Obtener la página de entidades del servicio
-        Page<UserEntity> userPage = userService.findAllUser(pageable);
+        Page<UserEntity> userPage = userService.findAllUser(pageable, filter);
 
         // 2. Convertir la lista de entidades (content) a DTOs
         List<UserResponseDTO> dtoList = userPage.getContent().stream()

@@ -34,7 +34,10 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Page<UserEntity> findAllUser(Pageable pageable) {
+    public Page<UserEntity> findAllUser(Pageable pageable, String filter) {
+        if (filter != null && !filter.trim().isEmpty()) {
+            return userRepo.findByGlobalFilter(filter.toLowerCase(), pageable);
+        }
         return userRepo.findAll(pageable);
     }
 
